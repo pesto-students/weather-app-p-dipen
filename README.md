@@ -1,3 +1,14 @@
+<h1 align="center">Welcome to My Weather App 👋</h1>
+
+---
+
+<p align="center"><a href="https://weather-app-dipen.netlify.app/" target="_blank">live demo</a></p>
+
+<p align="center">
+    <img src="https://i.imgur.com/tVjOQpF.png" />
+    <img src="https://i.imgur.com/d5ttbj6.png" />
+</p>
+
 # Weather App
 
 A tech company is planing to launch a responsive 'Weather-App'. You have been awarded a chance to present your (working) design using React Js to meet the requirements mentioned in the MVP below.
