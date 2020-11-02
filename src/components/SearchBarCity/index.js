@@ -44,8 +44,8 @@ const SearchInput = styled.input`
   }
   @media ${mediaSize.laptop} {
     padding: 15px 20px 15px 45px;
-    border-radius: ${({ suggestionsList, focus, value }) =>
-      value !== '' && suggestionsList > 0 && focus
+    border-radius: ${({ suggestionsList, focus, value, isFetching }) =>
+      value !== '' && (suggestionsList > 0 || isFetching) && focus
         ? '30px 30px 0px 0px'
         : '30px'};
   }
