@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import mediaSize from '../../constants/MediaSize';
 import SuggestionBox from '../SuggestionBox';
-
 const SearchBar = styled.form`
   position: relative;
   transition: 0.8s 0.5s;
@@ -26,8 +25,10 @@ const SearchInput = styled.input`
   padding: 10px 15px 10px 40px;
   color: #c5c5c5;
   transition: 0.2s;
-  border-radius: ${({ suggestionsList, focus }) =>
-    suggestionsList > 0 && focus ? '20px 20px 0px 0px' : '20px'};
+  border-radius: ${({ suggestionsList, focus, value, isFetching }) =>
+    value !== '' && (suggestionsList > 0 || isFetching) && focus
+      ? '20px 20px 0px 0px'
+      : '20px'};
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   &:focus {
@@ -43,8 +44,10 @@ const SearchInput = styled.input`
   }
   @media ${mediaSize.laptop} {
     padding: 15px 20px 15px 45px;
-    border-radius: ${({ suggestionsList, focus }) =>
-      suggestionsList > 0 && focus ? '30px 30px 0px 0px' : '30px'};
+    border-radius: ${({ suggestionsList, focus, value }) =>
+      value !== '' && suggestionsList > 0 && focus
+        ? '30px 30px 0px 0px'
+        : '30px'};
   }
 `;
 
@@ -84,6 +87,7 @@ const SearchBarCity = ({
   focus,
   suggestions = [],
   handleSelectSuggestions,
+  isFetching,
 }) => {
   return (
     <>
@@ -99,14 +103,16 @@ const SearchBarCity = ({
           }}
           suggestionsList={suggestions.length}
           focus={focus}
+          isFetching={isFetching}
         />
         <SearchIcon type="submit" value="Submit">
           <FontAwesomeIcon icon={faSearch} />
         </SearchIcon>
-        {value !== '' && focus && suggestions.length > 0 && (
+        {value !== '' && focus && (suggestions.length > 0 || isFetching) && (
           <SuggestionBox
             suggestions={suggestions}
             onChange={handleSelectSuggestions}
+            isFetching={isFetching}
           />
         )}
       </SearchBar>

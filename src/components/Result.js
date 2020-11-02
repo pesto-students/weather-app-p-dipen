@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import mediaSize from "../constants/MediaSize";
-import ForecastHour from "./ForecastHour";
-import MediumText from "./MediumText";
-import SmallText from "./SmallText";
-import Text from "./Text";
-import Card from "./Card";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import mediaSize from '../constants/MediaSize';
+import ForecastHour from './ForecastHour';
+import MediumText from './MediumText';
+import SmallText from './SmallText';
+import Text from './Text';
+import Card from './Card';
 
 const Results = styled.div`
   display: flex;
@@ -119,7 +119,7 @@ const Result = ({ weather }) => {
           <SmallText align="center" weight="400">
             {Math.floor(highestTemp)}&#176;
           </SmallText>
-          <Text align="center">Hight</Text>
+          <Text align="center">High</Text>
         </WeatherDetail>
         <WeatherDetail>
           <SmallText align="center" weight="400">

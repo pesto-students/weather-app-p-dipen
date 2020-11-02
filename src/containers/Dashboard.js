@@ -77,7 +77,7 @@ export class Dashboard extends Component {
         const latlon = await handleLocationPermission();
         if (latlon) {
           getCityWeatherDetail(null, latlon);
-          history.push('/city');
+          history.push('/citycurrentlocation');
         }
       }
     } catch (err) {
@@ -87,9 +87,8 @@ export class Dashboard extends Component {
 
   goToDetails = (city) => {
     const { setDetailCity, history } = this.props;
-    console.log('set', city);
     setDetailCity(city);
-    history.push('/city');
+    history.push(`/city/${city.city}`);
   };
   deleteCity = (e, cityName) => {
     e.stopPropagation();

@@ -11,7 +11,7 @@ const Options = styled.div`
   background: #ffff;
   width: 100%;
   border-radius: 0px 0px 20px 20px;
-  padding-bottom: 19px;
+  padding-bottom: 22px;
   @media ${mediaSize.mobileL} {
     border-radius: 0px 0px 30px 30px;
     margin-top: 5px;
@@ -24,16 +24,31 @@ const Option = styled.div`
     background: #a7a1a182;
   }
 `;
-
-export default function SuggestionBox({ suggestions, onChange }) {
+const Msg = styled.div`
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--clr-grey-8);
+`;
+export default function SuggestionBox({
+  suggestions,
+  onChange,
+  isFetching = true,
+}) {
   return (
     <Options>
-      {suggestions &&
-        [...new Set(suggestions)].map((suggestion, key) => (
-          <Option onClick={() => onChange(suggestion)} key={key}>
-            {suggestion}
-          </Option>
-        ))}
+      {isFetching ? (
+        <Msg>Loading...</Msg>
+      ) : (
+        <>
+          <Msg>Did you mean correction ?</Msg>
+          {suggestions &&
+            [...new Set(suggestions)].map((suggestion, key) => (
+              <Option onClick={() => onChange(suggestion)} key={key}>
+                {suggestion}
+              </Option>
+            ))}
+        </>
+      )}
     </Options>
   );
 }

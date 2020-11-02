@@ -11,7 +11,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faStar } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { addRemoveFavoriteCity, addCityToList } from '../actions';
+import {
+  getCityWeatherDetail,
+  addRemoveFavoriteCity,
+  addCityToList,
+  setDetailCity,
+} from '../actions';
 
 const ContainerWithStyle = styled(Container)``;
 const LinkWithStyle = styled(Link)`
@@ -35,6 +40,22 @@ const Favorite = styled.span`
 export class DetailCity extends Component {
   componentDidMount() {
     window.scrollTo(0, 0);
+    const { match, history, getCityWeatherDetail } = this.props;
+    if (match.path === '/city/:cityname') {
+      if (
+        Object.keys(match.params).length > 0 &&
+        Object.keys(match.params).indexOf('cityname') > -1
+      ) {
+        console.log('after update');
+        getCityWeatherDetail(match.params.cityname);
+      } else {
+        history.push('/');
+      }
+    }
+  }
+  componentWillUnmount() {
+    const { setDetailCity } = this.props;
+    setDetailCity({});
   }
   addRemoveFavorite = (e, city) => {
     e.preventDefault();
@@ -42,6 +63,13 @@ export class DetailCity extends Component {
     addRemoveFavoriteCity(city.city);
     addCityToList(city);
   };
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params !== this.props.match.params) {
+      console.log(prevProps, this.props);
+      this.props.getCityWeatherDetail(this.props.match.params.cityname);
+      this.forceUpdate();
+    }
+  }
   render() {
     const { city, error, loader, favorites } = this.props;
     let favorite = favorites.indexOf(city.city) !== -1;
@@ -86,11 +114,15 @@ const mapStateToProps = (state) => ({
   loader: state.getIn(['detail', 'loader']),
   error: state.getIn(['detail', 'error']),
   favorites: state.getIn(['initalLoad', 'favorites']).toJS(),
+  userLocationCity: state.getIn(['detail', 'userLocationCity']).toJS(),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   addRemoveFavoriteCity: (name) => dispatch(addRemoveFavoriteCity(name)),
   addCityToList: (data) => dispatch(addCityToList(data)),
+  getCityWeatherDetail: (searchValue) =>
+    dispatch(getCityWeatherDetail(searchValue)),
+  setDetailCity: (data) => dispatch(setDetailCity(data)),
 });
 
 DetailCity.protypes = {
@@ -100,6 +132,8 @@ DetailCity.protypes = {
   favorities: PropTypes.array.isRequired,
   addRemoveFavoriteCity: PropTypes.func.isRequired,
   addCityToList: PropTypes.func.isRequired,
+  getCityWeatherDetail: PropTypes.func.isRequired,
+  setDetailCity: PropTypes.func.isRequired,
 };
 
 const DetailCityWithRouter = withRouter(DetailCity);

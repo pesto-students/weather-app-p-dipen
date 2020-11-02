@@ -7,12 +7,15 @@ import rootReducer from './reducers';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
+import lsConfig from './localStorageConfig';
+import persistState from 'redux-localstorage';
 
 import reportWebVitals from './reportWebVitals';
 import { Map } from 'immutable';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const createPersistentStore = composeEnhancers(
+  persistState(['detail', 'initalLoad'], lsConfig),
   applyMiddleware(thunkMiddleware),
 )(createStore);
 

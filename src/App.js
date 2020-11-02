@@ -13,7 +13,8 @@ function App() {
         <div className="App-container">
           <Switch>
             <Route exact path="/" component={Dashboard} />
-            <Route exact path="/city" component={DetailCity} />
+            <Route exact path="/city/:cityname" component={DetailCity} />
+            <Route exact path="/citycurrentlocation" component={DetailCity} />
             <Redirect to="/" />
           </Switch>
         </div>
