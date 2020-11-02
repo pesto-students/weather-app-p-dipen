@@ -1,13 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import mediaSize from "../../constants/MediaSize";
+import React from 'react';
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import mediaSize from '../../constants/MediaSize';
+import SuggestionBox from '../SuggestionBox';
 
 const SearchBar = styled.form`
   position: relative;
   transition: 0.8s 0.5s;
+  display: flex;
   @media ${mediaSize.laptopL} {
     max-width: 600px;
   }
@@ -24,7 +26,8 @@ const SearchInput = styled.input`
   padding: 10px 15px 10px 40px;
   color: #c5c5c5;
   transition: 0.2s;
-  border-radius: 20px;
+  border-radius: ${({ suggestionsList, focus }) =>
+    suggestionsList > 0 && focus ? '20px 20px 0px 0px' : '20px'};
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   &:focus {
@@ -33,18 +36,23 @@ const SearchInput = styled.input`
       0 4px 6px -2px rgba(0, 0, 0, 0.05);
     outline: none;
   }
+  -webkit-transition: background 1s, border-radius 1s;
+  transition: background 1s, border-radius 1s;
   @media ${mediaSize.tablet} {
     font-size: 18px;
   }
   @media ${mediaSize.laptop} {
     padding: 15px 20px 15px 45px;
-    border-radius: 30px;
+    border-radius: ${({ suggestionsList, focus }) =>
+      suggestionsList > 0 && focus ? '30px 30px 0px 0px' : '30px'};
   }
 `;
 
-const SearchIcon = styled.span`
+const SearchIcon = styled.button`
   display: block;
   position: absolute;
+  border: none;
+  background: none;
   top: 50%;
   left: 22px;
   transform: translate(-50%, -50%);
@@ -52,6 +60,7 @@ const SearchIcon = styled.span`
   width: 14px;
   font-size: 14px;
   color: #c5c5c5;
+  cursor: pointer;
   @media ${mediaSize.tablet} {
     height: 15px;
     width: 15px;
@@ -62,9 +71,20 @@ const SearchIcon = styled.span`
     width: 16px;
     font-size: 16px;
   }
+  &:focus {
+    outline: none;
+  }
 `;
 
-const SearchBarCity = ({ submit, value, change, onFocus }) => {
+const SearchBarCity = ({
+  submit,
+  value,
+  change,
+  onFocus,
+  focus,
+  suggestions = [],
+  handleSelectSuggestions,
+}) => {
   return (
     <>
       <SearchBar onSubmit={submit}>
@@ -77,10 +97,18 @@ const SearchBarCity = ({ submit, value, change, onFocus }) => {
           onBlur={() => {
             setTimeout(() => onFocus(false), 500);
           }}
+          suggestionsList={suggestions.length}
+          focus={focus}
         />
-        <SearchIcon>
+        <SearchIcon type="submit" value="Submit">
           <FontAwesomeIcon icon={faSearch} />
         </SearchIcon>
+        {value !== '' && focus && suggestions.length > 0 && (
+          <SuggestionBox
+            suggestions={suggestions}
+            onChange={handleSelectSuggestions}
+          />
+        )}
       </SearchBar>
     </>
   );
