@@ -29,7 +29,7 @@ export const CallWeather = (city, latlon) => {
         'August',
         'September',
         'October',
-        'Nocvember',
+        'November',
         'December',
       ];
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -37,12 +37,14 @@ export const CallWeather = (city, latlon) => {
       const date = `${days[currentDate.getDay()]}, ${currentDate.getDate()} ${
         months[currentDate.getMonth()]
       }`;
-      const sunset = new Date(data1.sys.sunset * 1000)
-        .toLocaleTimeString()
-        .slice(0, 5);
-      const sunrise = new Date(data1.sys.sunrise * 1000)
-        .toLocaleTimeString()
-        .slice(0, 5);
+      const sunset =
+        new Date(data1.sys.sunset * 1000).toLocaleTimeString().slice(0, 4) +
+        ' ' +
+        new Date(data1.sys.sunset * 1000).toLocaleTimeString().slice(7, 10);
+      const sunrise =
+        new Date(data1.sys.sunrise * 1000).toLocaleTimeString().slice(0, 4) +
+        ' ' +
+        new Date(data1.sys.sunrise * 1000).toLocaleTimeString().slice(7, 10);
 
       const weatherInfo = {
         city: data1.name,

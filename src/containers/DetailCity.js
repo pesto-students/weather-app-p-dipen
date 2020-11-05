@@ -18,7 +18,9 @@ import {
   setDetailCity,
 } from '../actions';
 
-const ContainerWithStyle = styled(Container)``;
+const ContainerWithStyle = styled(Container)`
+  min-height: 100vh;
+`;
 const LinkWithStyle = styled(Link)`
   color: inherit;
 `;

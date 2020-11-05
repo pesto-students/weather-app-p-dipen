@@ -147,47 +147,46 @@ export class Dashboard extends Component {
             Dashboard
           </BigText>
         </Row>
-        <Row align="baseline" justify="space-between">
-          <SmallTextWithStyle weight="100" letterSpacing="0.5px">
-            Favorite City List
-          </SmallTextWithStyle>
-          {Object.keys(favcitiesList).length > 0 && (
-            <RefreshData>
-              <FontAwesomeIconStyle
-                icon={faSync}
-                spin={loader.favorite}
-                onClick={(e) =>
-                  this.loadCurrentWeatherCities(
-                    Object.keys(favcitiesList),
-                    'favorite',
-                  )
-                }
-              />
-            </RefreshData>
-          )}
-        </Row>
-        <Row justify="center">
-          {Object.keys(favcitiesList).length > 0 ? (
-            <TransitionGroup component={null}>
-              {Object.keys(favcitiesList)
-                .sort()
-                .map((key) => (
-                  <CSSTransition timeout={500} classNames="item" key={key}>
-                    <CitiesList
-                      city={favcitiesList[key]}
-                      key={favcitiesList[key]['city']}
-                      favorite={true}
-                      goToDetails={this.goToDetails}
-                      addRemoveFavorite={this.addRemoveFavorite}
-                      deleteCity={this.deleteCity}
-                    />
-                  </CSSTransition>
-                ))}
-            </TransitionGroup>
-          ) : (
-            <Text>Empty List</Text>
-          )}
-        </Row>
+        {Object.keys(favcitiesList).length > 0 && (
+          <>
+            <Row align="baseline" justify="space-between">
+              <SmallTextWithStyle weight="300" letterSpacing="0.5px">
+                Favorite City List
+              </SmallTextWithStyle>
+
+              <RefreshData>
+                <FontAwesomeIconStyle
+                  icon={faSync}
+                  spin={loader.favorite}
+                  onClick={(e) =>
+                    this.loadCurrentWeatherCities(
+                      Object.keys(favcitiesList),
+                      'favorite',
+                    )
+                  }
+                />
+              </RefreshData>
+            </Row>
+            <Row justify="center">
+              <TransitionGroup component={null}>
+                {Object.keys(favcitiesList)
+                  .sort()
+                  .map((key) => (
+                    <CSSTransition timeout={500} classNames="item" key={key}>
+                      <CitiesList
+                        city={favcitiesList[key]}
+                        key={favcitiesList[key]['city']}
+                        favorite={true}
+                        goToDetails={this.goToDetails}
+                        addRemoveFavorite={this.addRemoveFavorite}
+                        deleteCity={this.deleteCity}
+                      />
+                    </CSSTransition>
+                  ))}
+              </TransitionGroup>
+            </Row>
+          </>
+        )}
         <Row align="baseline" justify="space-between">
           <SmallTextWithStyle weight="300" letterSpacing="0.5px">
             City List
